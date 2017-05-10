@@ -1,0 +1,146 @@
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <title>retrieve</title>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        
+        li {
+            float: left;
+        }
+        
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        li a:hover {
+            background-color: #111;
+        }
+    </style>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script></head><body bgcolor="#FFFFFF">
+    <ul>
+        <li><a class="active" href="insert.html">New Entry</a></li>
+        </div>
+        <li><a href="retrieve.html">Retrieve</a></li>
+        <li><a href="update.html">Update</a></li>
+        <li><a href="deleteselected.html">Purchase</a></li>
+    </ul><br><br><br><br>
+    <div   ng-app="myApp" ng-controller="ctrl3">
+    <br><br><br><br>
+    <div align="center">
+        <div style="width:300px; border: solid 1px #333333; " align="left">
+            <div style="background-color:#333333; color:#FFFFFF; padding:3px;"><b>retrieve</b></div>
+
+            <div style="margin:30px">
+
+                <form>
+                    <input type="button" value="View Products" ng-click="myFunc()"/>
+                </form>
+
+                
+            </div>
+                                
+
+
+        </div>
+
+    </div><br><br>
+        <div>
+            <table width="70%" align="center">
+    <tr ng-repeat="x in records" bgcolor="skyblue">
+        <th>Product Id</th>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Purchase Quantity</th>
+        <th>Purchase</th></tr>
+                
+        <tr ng-repeat="x in names" bgcolor="grey">
+        <td>{{x.pId}}</td>
+        <td>{{x.pName}}</td>
+        <td>{{x.pPrice}}</td>
+        <td>{{x.pQuantity}}</td>
+            <td>    <input type="box" value="Purchase Quantity" ng-model='q'/></td>
+        <td> <input type="button" value="Purchase" ng-click="myFunc1()"></td>        </tr>
+                
+</table>
+</div>
+    </div>
+
+    <script>
+                          var app = angular.module('myApp', []); 
+                          app.controller('ctrl3', function ($scope, $http) {
+                              $scope.myFunc1 = function(){
+                                  alert('Do you want to purchase?');
+                              $scope.purchase = function(pId,pQuantity,q ) {
+                                    alert('Do you want to purchase?')
+                                   var res = {  
+                                  method: 'POST',
+                                  url: 'http://localhost:3000/delete', 
+                   headers: { 'Content-Type': 'Application/json' },
+                   data: {
+                            pId: pId,
+                            pQuantity: parseInt(pQuantity)-parseInt(q)
+                         }
+                              }
+                          
+                                  $http(res)
+                                  .then(function() { $scope.myFunc() });
+                                  //setTimeout($scope.myFunc,1500);
+                                      
+                         }
+                              }
+                              
+                              $scope.myFunc = function(pId,pQuantity,q) {
+                           $scope.records = [
+    {
+      "pId" : "pId",
+      "pName" : "pName",
+        "pPrice":"pPrice",
+        "pQuantity": "pQuantity",
+       // "Purchase Quantity": "purchase quantity",
+        //"purchase":"purchase"
+    }]
+                                var name=$scope.name;
+                              var req = { 
+                                  method: 'POST',
+                                  url: 'http://localhost:3000/entiredata', 
+                   headers: { 'Content-Type': 'Application/json' },
+                   data: {
+                          pId: pId,
+                          pQuantity: parseInt(pQuantity)-parseInt(q)
+                         }
+                              }
+                          
+                                  $http(req)
+                          .then(function (response) {
+                          $scope.names = response.data;
+                                      
+                                      
+                                      
+                         });
+                                  };
+                                  
+        
+        });
+        </script>
+
+            </body>
+                </html>
